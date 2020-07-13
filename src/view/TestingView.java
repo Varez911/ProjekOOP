@@ -6,12 +6,19 @@
 package view;
 
 import exe.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+
 /**
  *
  * @author userPC
  */
 public class TestingView extends javax.swing.JFrame {
-
+//    import java.awt.print.PrinterJob;
     /**
      * Creates new form TestingView
      */
@@ -81,15 +88,35 @@ public class TestingView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ExecuteTranskrip trans = new ExecuteTranskrip();
-            Object[][] myTranskrip = trans.listTranskrip();
-            jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                    myTranskrip, 
-                    new String[]{                        
-                        "Id Transkrip", "No Inap", "Tgl Inap", "Nama Resepsionis",
-                        "Nama Pasien", "Nama Penyakit", "Jenis Penyakit", "ID Kamar"
-                    }
-            ));
+        PrinterJob job = PrinterJob.getPrinterJob();
+            job.setJobName("Print Data");
+            
+            job.setPrintable(new Printable()
+            {
+            @Override
+            public int print(Graphics pg,PageFormat pf, int pageNum){
+                    pf.setOrientation(PageFormat.LANDSCAPE);
+                 if(pageNum>0){
+                    return Printable.NO_SUCH_PAGE;
+                }
+                
+                Graphics2D g2 = (Graphics2D)pg;
+                g2.translate(pf.getImageableX(), pf.getImageableY());
+                g2.scale(1,1);
+                
+                jScrollPane1.paint(g2);
+                
+                return Printable.PAGE_EXISTS;                                         
+            }
+    });
+         
+        boolean ok = job.printDialog();
+        if(ok){
+        try{
+            
+        job.print();
+        }
+        catch (PrinterException ex){}}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
