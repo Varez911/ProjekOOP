@@ -32,9 +32,9 @@ public class ExecuteRiwayat {
             while (rs.next()){
                 Riwayat _riwayat = new Riwayat();
                 _riwayat.setId_riwayat(rs.getInt("id_riwayat"));
-                _riwayat.setNama_penyakit(rs.getString("nama_resepsionis"));
-                _riwayat.setJenis_penyakit(rs.getString("jenis_riwayat"));
-                _riwayat.setWaktu_penyakit(rs.getDate("waktu_riwayat"));
+                _riwayat.setNama_penyakit(rs.getString("nama_penyakit"));
+                _riwayat.setJenis_penyakit(rs.getString("jenis_penyakit"));
+                _riwayat.setWaktu_penyakit(rs.getDate("waktu_penyakit"));
                 listRiwayat.add(_riwayat);
             }
         }catch (SQLException ex) {
@@ -67,8 +67,8 @@ public class ExecuteRiwayat {
         int Hasil = 0;
         String query = "update riwayat_penyakit set"
                 +" nama_penyakit='" + _riwayat.getNama_penyakit()
-                +"' jenis_penyakit='" + _riwayat.getJenis_penyakit()
-                +"' waktu_penyakit='" + _riwayat.getWaktu_penyakit()
+                +"', jenis_penyakit='" + _riwayat.getJenis_penyakit()
+                +"', waktu_penyakit='" + _riwayat.getWaktu_penyakit()
                 +"' where id_riwayat='"+_riwayat.getId_riwayat()+"'";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
@@ -98,9 +98,30 @@ public class ExecuteRiwayat {
         return Hasil;
     }
     
-    public Riwayat trackRiwayat(int id){
+    public Riwayat trackRiwayat(String id){
         Riwayat tracked = new Riwayat();
-        String query = "select * from riwayat_penyakit where id_riwayat='"+id+"'";
+        String query = "SELECT * FROM riwayat_penyakit WHERE nama_penyakit='"+id+"'";
+        ConnectionManager conMan = new ConnectionManager();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(query);
+            while (rs.next()){
+                tracked.setId_riwayat(rs.getInt("id_riwayat"));
+                tracked.setNama_penyakit(rs.getString("nama_penyakit"));
+                tracked.setJenis_penyakit(rs.getString("jenis_penyakit"));
+                tracked.setWaktu_penyakit(rs.getDate("waktu_penyakit"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecuteRiwayat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return tracked;
+    }
+    
+    public Riwayat trackRiwayatID(String id){
+        Riwayat tracked = new Riwayat();
+        String query = "SELECT * FROM riwayat_penyakit WHERE id_riwayat='"+id+"'";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
         try {

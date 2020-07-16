@@ -94,7 +94,27 @@ public class ExecutePasien {
         return Hasil;
     }
     
-    public Pasien trackPasien(int id){
+    public Pasien trackPasien(String id){
+        Pasien tracked = new Pasien();
+        String query = "select * from pasien where nama_pasien='"+id+"'";
+        ConnectionManager conMan = new ConnectionManager();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(query);
+            while (rs.next()){
+                tracked.setId_pasien(rs.getInt("id_pasien"));
+                tracked.setNama_pasien(rs.getString("nama_pasien"));
+                tracked.setTgl_pasien(rs.getDate("tgl_pasien"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecutePasien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return tracked;
+    }
+    
+    public Pasien trackPasienID(String id){
         Pasien tracked = new Pasien();
         String query = "select * from pasien where id_pasien='"+id+"'";
         ConnectionManager conMan = new ConnectionManager();
@@ -113,6 +133,8 @@ public class ExecutePasien {
         conMan.logOff();
         return tracked;
     }
+    
+    
     
     public Object[][] listKamar(){
         ExecutePasien exeP = new ExecutePasien();

@@ -36,13 +36,13 @@ public class ExecuteTranskrip {
                 _transkrip.setNo_inap(rs.getString("no_inap"));
                 _transkrip.setTgl_inap(rs.getDate("tgl_inap"));
                 
-                Kamar _newKamar = exeKamar.trackKamar(rs.getInt("id_kamar"));
+                Kamar _newKamar = exeKamar.trackKamar(rs.getString("id_kamar"));
                 _transkrip.setKamar(_newKamar);
                 Resepsionis _newResep = exeResep.trackResepsionis(rs.getInt("id_resepsionis"));
                 _transkrip.setResepsionis(_newResep);
-                Pasien _newPasien = exePasien.trackPasien(rs.getInt("id_pasien"));
+                Pasien _newPasien = exePasien.trackPasienID(rs.getString("id_pasien"));
                 _transkrip.setPasien(_newPasien);
-                Riwayat _newRiwayat = exeRiwayat.trackRiwayat(rs.getInt("id_riwayat"));
+                Riwayat _newRiwayat = exeRiwayat.trackRiwayatID(rs.getString("id_riwayat"));
                 _transkrip.setRiwayat(_newRiwayat);                
                 
                 listTranskrip.add(_transkrip);
@@ -127,13 +127,13 @@ public class ExecuteTranskrip {
                 tracked.setNo_inap(rs.getString("no_inap"));
                 tracked.setTgl_inap(rs.getDate("tgl_inap"));
                 
-                Kamar _newKamar = exeKamar.trackKamar(rs.getInt("id_kamar"));
+                Kamar _newKamar = exeKamar.trackKamar(rs.getString("id_kamar"));
                 tracked.setKamar(_newKamar);
                 Resepsionis _newResep = exeResep.trackResepsionis(rs.getInt("id_resepsionis"));
                 tracked.setResepsionis(_newResep);
-                Pasien _newPasien = exePasien.trackPasien(rs.getInt("id_pasien"));
+                Pasien _newPasien = exePasien.trackPasien(rs.getString("id_pasien"));
                 tracked.setPasien(_newPasien);
-                Riwayat _newRiwayat = exeRiwayat.trackRiwayat(rs.getInt("id_riwayat"));
+                Riwayat _newRiwayat = exeRiwayat.trackRiwayat(rs.getString("id_riwayat"));
                 tracked.setRiwayat(_newRiwayat);    
             }
         } catch (SQLException ex) {

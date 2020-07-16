@@ -11,14 +11,41 @@ package com;
  */
 public class Resepsionis {
     private int id_resepsionis;
-    private String nama_resepsionis,username,password,level;
+    private String nama_resepsionis, username, password, level;
 
     public Resepsionis() {
     }
 
-    public Resepsionis(int id_resepsionis, String nama_resepsionis) {
+    public Resepsionis(int id_resepsionis, String nama_resepsionis, String username, String password, String level) {
         this.id_resepsionis = id_resepsionis;
         this.nama_resepsionis = nama_resepsionis;
+        this.username = username;
+        this.password = password;
+        this.level = level;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public int getId_resepsionis() {

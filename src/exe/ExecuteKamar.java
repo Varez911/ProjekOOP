@@ -79,7 +79,7 @@ public class ExecuteKamar {
     
     public int deleteKamar(Kamar _kamar){
         int Hasil = 0;
-        String query = "delete from kamar where idkamar='"
+        String query = "delete from kamar where id_kamar='"
                 + _kamar.getId_kamar()+"'";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
@@ -93,7 +93,23 @@ public class ExecuteKamar {
         return Hasil;
     }
     
-    public Kamar trackKamar(int id){
+    public int StatusUpdate(String id, String Status){
+        int Hasil = 0;
+                String query = "update kamar set status_kamar='"+Status+"' where id_kamar='"
+                + id+"'";
+        ConnectionManager conMan = new ConnectionManager();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            Hasil = stm.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecuteKamar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return Hasil;
+    }
+    
+    public Kamar trackKamar(String id){
         Kamar tracked = new Kamar();
         String query = "select * from kamar where id_kamar='"
                 + id +"'";
@@ -124,7 +140,7 @@ public class ExecuteKamar {
             dataKamar[mySize][0] = kamar.getId_kamar();
             dataKamar[mySize][1] = kamar.getTipe_kamar();
             dataKamar[mySize][2] = kamar.getStatus_kamar();
-            dataKamar[mySize][3] = kamar.getHarga_kamar();
+            dataKamar[mySize][3] = "Rp."+kamar.getHarga_kamar();
             mySize++;
         }
         return dataKamar;
