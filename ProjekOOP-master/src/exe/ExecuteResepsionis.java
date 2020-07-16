@@ -33,6 +33,9 @@ public class ExecuteResepsionis {
                 Resepsionis _resep = new Resepsionis();
                 _resep.setId_resepsionis(rs.getInt("id_resepsionis"));
                 _resep.setNama_resepsionis(rs.getString("nama_resepsionis"));
+                _resep.setUsername(rs.getString("username"));
+                _resep.setPassword(rs.getString("password"));
+                _resep.setLevel(rs.getString("level"));
                 listPasien.add(_resep);
             }
         }catch (SQLException ex) {
@@ -42,34 +45,13 @@ public class ExecuteResepsionis {
         return listPasien;        
     }
     
-    public List<Resepsionis> getResepsionisAdmin(){
-        List<Resepsionis> listAdmin = new ArrayList<>();
-        String query = "select * from resepsionis";
-        ConnectionManager conMan = new ConnectionManager();
-        Connection conn = conMan.logOn();
-        try{
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(query);
-            while (rs.next()){
-                Resepsionis _resep2 = new Resepsionis();
-                _resep2.setId_resepsionis(rs.getInt("id_resepsionis"));
-                _resep2.setNama_resepsionis(rs.getString("nama_resepsionis"));
-                _resep2.setNama_resepsionis(rs.getString("username"));
-                _resep2.setNama_resepsionis(rs.getString("password"));
-                _resep2.setNama_resepsionis(rs.getString("level"));
-                listAdmin.add(_resep2);
-            }
-        }catch (SQLException ex) {
-            Logger.getLogger(ExecuteResepsionis.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        conMan.logOff();
-        return listAdmin;        
-    }
-    
     public int insertResepsionis(Resepsionis _resep){
         int Hasil = 0;
-        String query = "insert into resepsionis(nama_resepsionis)"
-                +" values('"+_resep.getNama_resepsionis()+"')";
+        String query = "insert into resepsionis(nama_resepsionis, username, password, level)"
+                +" values('"+_resep.getNama_resepsionis()
+                +"','"+_resep.getUsername()
+                +"','"+_resep.getPassword()
+                +"','"+_resep.getLevel()+"')";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
         try {
@@ -82,11 +64,13 @@ public class ExecuteResepsionis {
         return Hasil;
     }
     
-    
     public int updateResepsionis(Resepsionis _resep){
         int Hasil = 0;
         String query = "update resepsionis set"
                 +" nama_resepsionis='" + _resep.getNama_resepsionis()
+                +"', username='"+_resep.getUsername()
+                +"', password='"+_resep.getPassword()
+                +"', level='"+_resep.getLevel()
                 +"' where id_resepsionis='"+_resep.getId_resepsionis()+"'";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
@@ -116,6 +100,22 @@ public class ExecuteResepsionis {
         return Hasil;
     }
     
+    public int deleteResepsionis(int _resep){
+        int Hasil = 0;
+        String query = "delete from resepsionis where id_resepsionis='"
+                + _resep+"'";
+        ConnectionManager conMan = new ConnectionManager();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            Hasil = stm.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecuteResepsionis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return Hasil;
+    }
+    
     public Resepsionis trackResepsionis(int id){
         Resepsionis tracked = new Resepsionis();
         String query = "select * from resepsionis where id_resepsionis='"+id+"'";
@@ -127,6 +127,9 @@ public class ExecuteResepsionis {
             while (rs.next()){
                 tracked.setId_resepsionis(rs.getInt("id_resepsionis"));
                 tracked.setNama_resepsionis(rs.getString("nama_resepsionis"));
+                tracked.setUsername(rs.getString("username"));
+                tracked.setPassword(rs.getString("password"));
+                tracked.setLevel(rs.getString("level"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ExecuteResepsionis.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,15 +141,16 @@ public class ExecuteResepsionis {
     public Object[][] listResepsionis(){
         ExecuteResepsionis exeR = new ExecuteResepsionis();
         List<Resepsionis> listResepsionis = exeR.getResepsionis();
-        Object[][] dataResepsionis = new Object[listResepsionis.size()][2];
+        Object[][] dataResepsionis = new Object[listResepsionis.size()][5];
         int mySize = 0;
         for (Resepsionis resep: listResepsionis){
             dataResepsionis[mySize][0] = resep.getId_resepsionis();
             dataResepsionis[mySize][1] = resep.getNama_resepsionis();
+            dataResepsionis[mySize][2] = resep.getUsername();
+            dataResepsionis[mySize][3] = resep.getPassword();
+            dataResepsionis[mySize][4] = resep.getLevel();
             mySize++;
         }
         return dataResepsionis;
     }
-    
-
 }
