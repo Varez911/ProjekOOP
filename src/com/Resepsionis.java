@@ -11,7 +11,7 @@ package com;
  */
 public class Resepsionis {
     private int id_resepsionis;
-    private String nama_resepsionis;
+    private String nama_resepsionis,username,password,level;
 
     public Resepsionis() {
     }

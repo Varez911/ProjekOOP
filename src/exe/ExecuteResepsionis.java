@@ -42,6 +42,30 @@ public class ExecuteResepsionis {
         return listPasien;        
     }
     
+    public List<Resepsionis> getResepsionisAdmin(){
+        List<Resepsionis> listAdmin = new ArrayList<>();
+        String query = "select * from resepsionis";
+        ConnectionManager conMan = new ConnectionManager();
+        Connection conn = conMan.logOn();
+        try{
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(query);
+            while (rs.next()){
+                Resepsionis _resep2 = new Resepsionis();
+                _resep2.setId_resepsionis(rs.getInt("id_resepsionis"));
+                _resep2.setNama_resepsionis(rs.getString("nama_resepsionis"));
+                _resep2.setNama_resepsionis(rs.getString("username"));
+                _resep2.setNama_resepsionis(rs.getString("password"));
+                _resep2.setNama_resepsionis(rs.getString("level"));
+                listAdmin.add(_resep2);
+            }
+        }catch (SQLException ex) {
+            Logger.getLogger(ExecuteResepsionis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return listAdmin;        
+    }
+    
     public int insertResepsionis(Resepsionis _resep){
         int Hasil = 0;
         String query = "insert into resepsionis(nama_resepsionis)"
@@ -57,6 +81,7 @@ public class ExecuteResepsionis {
         conMan.logOff();
         return Hasil;
     }
+    
     
     public int updateResepsionis(Resepsionis _resep){
         int Hasil = 0;
@@ -122,4 +147,6 @@ public class ExecuteResepsionis {
         }
         return dataResepsionis;
     }
+    
+
 }

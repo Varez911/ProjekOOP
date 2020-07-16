@@ -31,9 +31,9 @@ public class ExecutePasien {
             ResultSet rs = stm.executeQuery(query);
             while (rs.next()){
                 Pasien _pasien = new Pasien();
-                _pasien.setId_pasien(rs.getInt("id_kamar"));
-                _pasien.setNama_pasien(rs.getString("biaya_kamar"));
-                _pasien.setTgl_pasien(rs.getDate("status_kamar"));
+                _pasien.setId_pasien(rs.getInt("id_pasien"));
+                _pasien.setNama_pasien(rs.getString("nama_pasien"));
+                _pasien.setTgl_pasien(rs.getDate("tgl_pasien"));
                 listPasien.add(_pasien);
             }
         }catch (SQLException ex) {
